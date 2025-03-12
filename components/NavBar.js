@@ -1,32 +1,42 @@
-import Image from 'next/image'
-import React from 'react'
-import {
-    UserButton
-  } from "@clerk/nextjs";
+import Image from "next/image";
+import React from "react";
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+
 function NavBar() {
   return (
-    <div className='flex items-center
-    justify-between p-3 px-5 shadow-sm border-b-[1px]'>
-        <Image src='/logo.png'
-        alt='logo'
-        width={100}
-        height={100}
+    <nav className="flex items-center justify-between p-4 px-6 bg-white shadow-md border-b">
+      {/* Logo Section */}
+      <Link href="/">
+        <Image
+          src="/logo1.png"
+          alt="Logo"
+          width={120}
+          height={120}
+          className="cursor-pointer hover:opacity-80 transition-opacity"
         />
-        <div className='hidden md:flex gap-5'>
-            <h2 className='
-            hover:bg-blue-500
-            px-3 cursor-pointer
-            p-2 rounded-full hover:text-white'>Home</h2>
-            <h2 className='hover:bg-blue-500
-            px-3 cursor-pointer
-            p-2 rounded-full hover:text-white'>History</h2>
-            <h2 className='hover:bg-blue-500
-            px-3 cursor-pointer
-            p-2 rounded-full hover:text-white'>Contact Us</h2>
-        </div>
-        <UserButton/>
-    </div>
-  )
+      </Link>
+
+      {/* Navigation Links */}
+      <div className="hidden md:flex items-center gap-8">
+        {["Home", "History", "Contact Us"].map((item, index) => (
+          <Link key={index} href={`/${item.toLowerCase().replace(/\s/g, "")}`}>
+            <h2
+              className="px-4 py-2 rounded-lg text-gray-700 font-medium 
+              hover:bg-blue-500 hover:text-white transition-all duration-300"
+            >
+              {item}
+            </h2>
+          </Link>
+        ))}
+      </div>
+
+      {/* User Profile */}
+      <div className="flex items-center gap-3">
+        <UserButton />
+      </div>
+    </nav>
+  );
 }
 
-export default NavBar
+export default NavBar;

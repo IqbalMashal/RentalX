@@ -33,7 +33,7 @@ export const getCarsList = async () => {
 export const getStoreLocations=async()=>{
   const query=gql`
   query storeLocation {
-    storesLocations {
+    storesLocation {
       address
     }
   }  
