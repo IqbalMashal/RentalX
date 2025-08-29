@@ -1,12 +1,7 @@
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignIn,
-} from "@clerk/nextjs";
 import { Outfit } from "next/font/google";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 const inter = Outfit({ subsets: ["latin"] });
 
@@ -17,20 +12,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
       <html lang="en">
         <body className={`${inter.className} min-h-screen flex flex-col`}>
-          <SignedIn>
             <NavBar />
             {children}
-          </SignedIn>
-          <SignedOut>
-            <div className="flex justify-center items-center h-screen">
-              <SignIn />
-            </div>
-          </SignedOut>
+            <Footer />              
         </body>
       </html>
-    </ClerkProvider>
   );
 }

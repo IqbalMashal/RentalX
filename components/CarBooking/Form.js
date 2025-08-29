@@ -1,6 +1,5 @@
 import { BookCreatedFlagContext } from "@/context/BookCreatedFlagContext";
 import { createBooking, getStoreLocations } from "@/services";
-import { useUser } from "@clerk/nextjs";
 import React, { useContext, useEffect, useState } from "react";
 
 function Form({ car }) {
