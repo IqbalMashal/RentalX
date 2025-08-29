@@ -5,13 +5,15 @@ import { useForm } from "react-hook-form";
 import { Eye, EyeOff, User, Mail, Lock, Shield, CheckCircle, AlertCircle } from 'lucide-react';
 import { registerUser } from '@/lib/authenticate';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [submitError, setSubmitError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+
+  const router = useRouter()
 
   const {
     register,
@@ -87,7 +89,7 @@ export default function Register() {
 
     try {
       await registerUser(sanitizedData);
-      navigate("/login");
+      router.push("/login");
     } catch (err) {
       setSubmitError(err.message);
     }

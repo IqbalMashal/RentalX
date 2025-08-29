@@ -1,33 +1,19 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { LogOut, UserRound, ChevronDown } from 'lucide-react'
+import { readToken, removeToken } from '@/lib/authenticate'
+
 
 function NavBar() {
   const [token, setToken] = useState(null)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
 
-  // Mock authentication functions - replace with your actual implementation
-  const readToken = () => {
-    try {
-      const token = localStorage.getItem('authToken')
-      return token ? JSON.parse(token) : null
-    } catch {
-      return null
-    }
-  }
-
-  const removeToken = async () => {
-    localStorage.removeItem('authToken')
-    return Promise.resolve()
-  }
-
   useEffect(() => {
     checkAuthStatus()
     
-    const handleStorageChange = () => {
-      checkAuthStatus()
-    }
+    const handleStorageChange = () => checkAuthStatus()
     
     window.addEventListener('storage', handleStorageChange)
     window.addEventListener('authStatusChanged', checkAuthStatus)
@@ -63,8 +49,9 @@ function NavBar() {
     <nav className="bg-white shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          
           {/* Logo Section */}
-          <a href="/" className="flex-shrink-0">
+          <Link href="/" className="flex-shrink-0">
             <img
               src="/logo1.png"
               alt="Logo"
@@ -72,18 +59,18 @@ function NavBar() {
               height="32"
               className="hover:opacity-80 transition-opacity"
             />
-          </a>
+          </Link>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            {["Home", "History", "Contact Us"].map((item, index) => (
-              <a 
-                key={index} 
+            {["Home", "History", "Contact Us", "Cars"].map((item, index) => (
+              <Link
+                key={index}
                 href={item === "Home" ? "/" : `/${item.toLowerCase().replace(/\s/g, "")}`}
                 className="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
               >
                 {item}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -91,18 +78,18 @@ function NavBar() {
           <div className="flex items-center space-x-4">
             {!token ? (
               <>
-                <a
+                <Link
                   href="/register"
                   className="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
                 >
                   Sign Up
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/login"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   Sign In
-                </a>
+                </Link>
               </>
             ) : (
               <div className="relative">
@@ -115,7 +102,7 @@ function NavBar() {
                   </div>
                   <div className="hidden sm:block text-left">
                     <p className="text-sm font-medium text-gray-700 max-w-32 truncate">
-                      {token.userName}
+                      {token.userFirstName}
                     </p>
                   </div>
                   <ChevronDown 
@@ -142,13 +129,13 @@ function NavBar() {
                             {token.userName}
                           </div>
                         </div>
-                        <a
+                        {/* <Link
                           href="/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                           onClick={() => setUserDropdownOpen(false)}
                         >
                           My Profile
-                        </a>
+                        </Link> */}
                         <button
                           onClick={logout}
                           className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 flex items-center transition-colors border-t border-gray-100"

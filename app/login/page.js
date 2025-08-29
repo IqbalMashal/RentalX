@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Mail, Lock, Eye, EyeOff, Shield, AlertCircle, CheckCircle } from "lucide-react";
 import { authenticateUser } from "@/lib/authenticate";
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 // Security utility functions
 const sanitizeInput = (input) => {
@@ -40,6 +41,8 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const router = useRouter() 
+
   const {
     register,
     handleSubmit,
@@ -62,7 +65,7 @@ export default function Login() {
 
       const success = await authenticateUser(sanitizedData);
       if (success){
-        navigate(`/`)
+        router.push(`/`)
       }
     } catch (err) {
       setWarning("Invalid username or password");
