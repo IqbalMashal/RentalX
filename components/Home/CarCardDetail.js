@@ -1,15 +1,36 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaGasPump } from "react-icons/fa";
 import { MdAirlineSeatReclineNormal } from "react-icons/md";
 import { PiSteeringWheelFill } from "react-icons/pi";
-import { useRouter } from "next/navigation";
+import { getCarsList } from "@/services";
 
-export default function CarCard({ car }) {
-  const router = useRouter();
+export default function CarCardDetail({ id }) {
+  const [car, setCar] = useState(null);
+  const [error, setError] = useState("");
 
-  if (!car) return null;
+  useEffect(() => {
+    let ignore = false;
+
+    async function load() {
+      try {
+        const result = await getCarsList();
+        const match = result?.carLists?.find(
+          (c) => String(c.id) === String(id)
+        );
+        if (!ignore) setCar(match ?? null);
+      } catch (e) {
+        if (!ignore) setError("Failed to load car details.");
+      }
+    }
+
+    if (id) load();
+    return () => { ignore = true; };
+  }, [id]);
+
+  if (error) return <p className="text-red-600">{error}</p>;
+  if (!car) return <p>Loading car details...</p>;
 
   return (
     <div
@@ -34,7 +55,7 @@ export default function CarCard({ car }) {
         />
       </div>
 
-      <div className="flex justify-around group-hover:hidden">
+      <div className="flex justify-around">
         <div className="text-center text-gray-500">
           <PiSteeringWheelFill className="w-full text-[22px] mb-2" />
           <h2 className="text-[14px] font-light">{car?.carType}</h2>
@@ -48,22 +69,6 @@ export default function CarCard({ car }) {
           <h2 className="text-[14px] font-light">{car.carAvg} MPG</h2>
         </div>
       </div>
-
-      <button
-        className="hidden group-hover:flex bg-gradient-to-r from-blue-400 to-blue-700
-                   p-2 rounded-lg text-white w-full px-5 justify-between"
-      >
-        Rent Now
-        <span className="bg-blue-400 p-1 rounded-md ">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               viewBox="0 0 24 24" fill="currentColor"
-               className="w-4 h-4 text-white">
-            <path fillRule="evenodd"
-              d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z"
-              clipRule="evenodd" />
-          </svg>
-        </span>
-      </button>
     </div>
   );
 }
