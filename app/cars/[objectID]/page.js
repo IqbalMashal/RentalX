@@ -9,14 +9,12 @@ export default function CarByIdPage() {
   const [carId, setCarId] = useState(null);
 
   useEffect(() => {
-    // Add some debugging
-    console.log("Params:", params);
+
     
     // Check if params exist and get the ID
     if (params) {
       // Try different possible parameter names
       const id = params.objectID;
-      console.log("Extracted ID:", id);
       
       if (id) {
         setCarId(id);
