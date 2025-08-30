@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.1",
+    "@emailjs/browser": "^4.4.1",
     "bcrypt": "^6.0.0",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",

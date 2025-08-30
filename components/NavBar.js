@@ -63,7 +63,7 @@ function NavBar() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            {["Home", "History", "Contact Us", "Cars"].map((item, index) => (
+            {["Home", "Contact Us", "Cars"].map((item, index) => (
               <Link
                 key={index}
                 href={item === "Home" ? "/" : `/${item.toLowerCase().replace(/\s/g, "")}`}
